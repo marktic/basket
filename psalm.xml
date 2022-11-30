@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<psalm
+        errorLevel="8"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://getpsalm.org/schema/config"
+        xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+        errorBaseline="./tests/_static/psalm-baseline.xml"
+>
+    <projectFiles>
+        <directory name="config"/>
+        <directory name="migrations"/>
+        <directory name="src"/>
+        <directory name="tests"/>
+        <ignoreFiles>
+            <directory name="vendor"/>
+        </ignoreFiles>
+    </projectFiles>
+    <issueHandlers>
+        <InvalidScope>
+            <errorLevel type="suppress">
+                <directory name="src/Bundle/Resources/views"/>
+            </errorLevel>
+        </InvalidScope>
+    </issueHandlers>
+</psalm>
