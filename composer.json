@@ -1,16 +1,32 @@
 {
   "name": "marktic/basket",
-  "type": "library",
-  "license": "MIT",
   "description": " A base for shoping carts ",
+  "license": "MIT",
+  "type": "library",
   "keywords": [],
-  "homepage": "https://github.com/marktic/basket",
   "authors": [
     {
       "name": "Gabriel Solomon",
       "email": "hello@gabrielsolomon.ro"
     }
   ],
+  "homepage": "https://github.com/marktic/basket",
+  "require": {
+    "php": ">=8.0",
+    "ext-json": "*",
+    "bytic/form": "^1.0",
+    "bytic/migrations": "^0.12",
+    "bytic/orm": "^1.0 || ^2.0",
+    "bytic/orm-behaviors": "^0.9 || ^1.0",
+    "bytic/orm-filters": "^0.9 || ^1.0",
+    "bytic/package-base": "^1.0",
+    "bytic/translation": "^0.9 || ^1.0"
+  },
+  "require-dev": {
+    "bytic/phpqatools": "^1.0"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "autoload": {
     "psr-4": {
       "Marktic\\Basket\\": "src/"
@@ -22,22 +38,6 @@
       "Marktic\\Basket\\Tests\\Fixtures\\": "tests/fixtures"
     }
   },
-  "require": {
-    "php": ">=8.0",
-    "ext-json": "*",
-    "bytic/orm": "^1.0|^2.0",
-    "bytic/orm-filters": "^0.9|^1.0",
-    "bytic/orm-behaviors": "^0.9|^1.0",
-    "bytic/translation": "^0.9|^1.0",
-    "bytic/form": "^1.0",
-    "bytic/package-base": "^1.0",
-    "bytic/migrations": "^0.12"
-  },
-  "require-dev": {
-    "bytic/phpqatools": "^1.0"
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
   "config": {
     "allow-plugins": {
       "phpstan/extension-installer": true,

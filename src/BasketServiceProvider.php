@@ -1,13 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Marktic\Basket;
 
 use ByTIC\PackageBase\BaseBootableServiceProvider;
 use Marktic\Basket\Utility\PackageConfig;
 
 /**
- * Class BasketServiceProvider
- * @package Marktic\Basket
+ * Class BasketServiceProvider.
  */
 class BasketServiceProvider extends BaseBootableServiceProvider
 {
@@ -21,7 +22,7 @@ class BasketServiceProvider extends BaseBootableServiceProvider
     public function migrations(): ?string
     {
         if (PackageConfig::shouldRunMigrations()) {
-            return dirname(__DIR__) . '/migrations/';
+            return \dirname(__DIR__) . '/migrations/';
         }
 
         return null;
@@ -35,7 +36,6 @@ class BasketServiceProvider extends BaseBootableServiceProvider
         $translator = $this->getContainer()->get('translator');
         $folder = __DIR__ . '/Bundle/Resources/lang/';
         $languages = $this->getContainer()->get('translation.languages');
-
 
         foreach ($languages as $language) {
             $path = $folder . $language;
@@ -51,9 +51,6 @@ class BasketServiceProvider extends BaseBootableServiceProvider
 //        );
     }
 
-    /**
-     * @return array
-     */
     public function provides(): array
     {
         return array_merge(
@@ -62,5 +59,4 @@ class BasketServiceProvider extends BaseBootableServiceProvider
             parent::provides()
         );
     }
-
 }

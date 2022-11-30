@@ -1,13 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Marktic\Basket\Utility;
 
-use Exception;
 use Marktic\Basket\BasketServiceProvider;
 use Nip\Utility\Traits\SingletonTrait;
 
 /**
- * Class PackageConfig
+ * Class PackageConfig.
  */
 class PackageConfig extends \ByTIC\PackageBase\Utility\PackageConfig
 {
@@ -28,16 +29,15 @@ class PackageConfig extends \ByTIC\PackageBase\Utility\PackageConfig
     }
 
     /**
-     * @return string|null
-     * @throws Exception
+     * @throws \Exception
      */
     public static function databaseConnection(): ?string
     {
-        return (string)static::instance()->get('database.connection');
+        return (string) static::instance()->get('database.connection');
     }
 
     public static function shouldRunMigrations(): bool
     {
-        return static::instance()->get('database.migrations', false) !== false;
+        return false !== static::instance()->get('database.migrations', false);
     }
 }

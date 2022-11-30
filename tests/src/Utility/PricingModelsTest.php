@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Marktic\Basket\Tests\Utility;
 
 use Marktic\Basket\Cart\Models\Carts;
@@ -8,15 +10,11 @@ use Marktic\Basket\Utility\BasketModels;
 use Nip\Records\Locator\ModelLocator;
 
 /**
- * Class PricingModelsTest
- * @package ByTIC\NotifierBuilder
+ * Class PricingModelsTest.
  */
 class PricingModelsTest extends AbstractTest
 {
-    /**
-     * @test
-     */
-    public function models_adjustments_load_from_config()
+    public function testModelsAdjustmentsLoadFromConfig()
     {
         $this->loadConfigFromFixture('mkt_basket');
 

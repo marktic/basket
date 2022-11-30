@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Marktic\Basket\Base\Models\Behaviours\Timestampable;
 
 trait TimestampableTrait
@@ -15,5 +17,4 @@ trait TimestampableTrait
      * @var string
      */
     protected static $updateTimestamps = ['updated_at'];
-
 }
