@@ -7,6 +7,7 @@ namespace Marktic\Basket\Utility;
 use ByTIC\PackageBase\Utility\ModelFinder;
 use Marktic\Basket\BasketServiceProvider;
 use Marktic\Basket\Cart\Models\Carts;
+use Marktic\Basket\CartItems\Models\CartItems;
 use Marktic\Basket\Order\Models\Orders;
 use Nip\Records\RecordManager;
 
@@ -16,11 +17,20 @@ use Nip\Records\RecordManager;
 class BasketModels extends ModelFinder
 {
     public const CARTS = 'carts';
+
+    public const CART_ITEMS = 'cart_items';
     public const ORDERS = 'orders';
+
+    public const ORDER_ITEMS = 'order_items';
 
     public static function carts(): Carts|RecordManager
     {
         return static::getModels(self::CARTS, Carts::class);
+    }
+
+    public static function cartItems()
+    {
+       return static::getModels(self::CART_ITEMS, CartItems::class);
     }
 
     /**

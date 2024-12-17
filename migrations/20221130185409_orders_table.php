@@ -6,7 +6,7 @@ use Marktic\Basket\Utility\BasketModels;
 use Marktic\Basket\Utility\PackageConfig;
 use Phinx\Migration\AbstractMigration;
 
-final class CartsTable extends AbstractMigration
+final class OrdersTable extends AbstractMigration
 {
     /**
      * Change Method.
@@ -21,7 +21,7 @@ final class CartsTable extends AbstractMigration
      */
     public function change(): void
     {
-        $table_name = PackageConfig::tableName(BasketModels::CARTS);
+        $table_name = PackageConfig::tableName(BasketModels::ORDERS);
         $exists = $this->hasTable($table_name);
         if ($exists) {
             return;
@@ -29,9 +29,10 @@ final class CartsTable extends AbstractMigration
         $table = $this->table($table_name);
         $table
             ->addColumn('id_user', 'integer', ['null' => false])
-            ->addColumn('id_session', 'string')
-            ->addColumn('ip_address', 'string', ['limit' => 46])
+            ->addColumn('id_payment_method', 'integer')
             ->addColumn('hash', 'string', ['null' => false])
+            ->addColumn('amount', 'decimal', ['precision' => 10, 'scale' => 2])
+            ->addColumn('currency_code', 'string', ['limit' => 3])
             ->addColumn('properties', 'text')
             ->addColumn('updated_at', 'timestamp', [
                 'default' => 'CURRENT_TIMESTAMP',
@@ -45,8 +46,7 @@ final class CartsTable extends AbstractMigration
         $table
             ->addIndex(['hash'], ['unique' => true])
             ->addIndex(['id_user'])
-            ->addIndex(['id_session'])
-            ->addIndex(['ip_address'])
+            ->addIndex(['id_payment_method'])
             ->addIndex(['created_at'])
             ->save();
     }
