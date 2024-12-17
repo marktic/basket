@@ -13,4 +13,15 @@ trait CartRepositoryTrait
     {
         return PackageConfig::tableName(BasketModels::CARTS, Carts::TABLE);
     }
+
+    function relationBasketItemsClass(): string
+    {
+        return BasketModels::cartItemsClass();
+    }
+
+    public function generatePrimaryFK()
+    {
+        return 'cart_id';
+    }
+
 }

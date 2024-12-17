@@ -14,11 +14,6 @@ class BasketServiceProvider extends BaseBootableServiceProvider
 {
     public const NAME = 'mkt_basket';
 
-    public function register()
-    {
-        parent::register();
-    }
-
     public function migrations(): ?string
     {
         if (PackageConfig::shouldRunMigrations()) {

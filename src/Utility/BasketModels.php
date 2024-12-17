@@ -33,12 +33,28 @@ class BasketModels extends ModelFinder
        return static::getModels(self::CART_ITEMS, CartItems::class);
     }
 
+    public static function cartItemsClass()
+    {
+       return get_class(static::cartItems());
+    }
+
     /**
      * @return Orders|RecordManager
      */
     public static function orders(): Carts|RecordManager
     {
         return static::getModels(self::ORDERS, Orders::class);
+    }
+
+    public static function orderItems()
+    {
+        return static::getModels(self::ORDER_ITEMS, OrderItems::class);
+    }
+
+
+    public static function orderItemsClass(): string
+    {
+        return get_class(static::orderItems());
     }
 
     protected static function packageName(): string

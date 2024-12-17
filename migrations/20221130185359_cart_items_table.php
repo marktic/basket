@@ -28,10 +28,10 @@ final class CartItemsTable extends AbstractMigration
         }
         $table = $this->table($table_name);
         $table
-            ->addColumn('cart_id', 'integer', ['null' => false])
-            ->addColumn('catalog_id', 'integer', ['null' => true])
+            ->addColumn('cart_id', 'integer', ['null' => false, 'signed' => false])
+            ->addColumn('catalog_id', 'integer', ['null' => true, 'signed' => false])
             ->addColumn('catalog_type', 'string', ['null' => true])
-            ->addColumn('product_id', 'integer', ['null' => true])
+            ->addColumn('product_id', 'integer', ['null' => true, 'signed' => false])
             ->addColumn('product_type', 'string', ['null' => true])
             ->addColumn('quantity', 'integer', ['null' => false])
             ->addColumn('updated_at', 'timestamp', [

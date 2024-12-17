@@ -13,4 +13,15 @@ trait OrderRepositoryTrait
     {
         return PackageConfig::tableName(BasketModels::ORDERS, Orders::TABLE);
     }
+
+    function relationBasketItemsClass(): string
+
+    {
+        return BasketModels::orderItemsClass();
+    }
+
+    public function generatePrimaryFK()
+    {
+        return 'order_id';
+    }
 }
