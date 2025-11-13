@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Marktic\Basket\Cart\Models;
+namespace Marktic\Basket\Carts\Models;
 
 trait CartTrait
 {

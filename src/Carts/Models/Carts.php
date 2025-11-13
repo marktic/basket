@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Marktic\Basket\Cart\Models;
+namespace Marktic\Basket\Carts\Models;
 
 use Marktic\Basket\Basket\Models\Baskets;
 use Marktic\Basket\Utility\BasketModels;

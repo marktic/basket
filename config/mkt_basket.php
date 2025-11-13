@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Marktic\Basket\Cart\Models\Carts;
+use Marktic\Basket\Carts\Models\Carts;
 use Marktic\Basket\CartItems\Models\CartItems;
 use Marktic\Basket\Order\Models\Orders;
 use Marktic\Basket\OrderItems\Models\OrderItems;
