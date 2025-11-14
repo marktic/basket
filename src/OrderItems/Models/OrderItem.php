@@ -8,4 +8,6 @@ use Marktic\Basket\BasketItems\Models\BasketItem;
 
 class OrderItem extends BasketItem
 {
+    use OrderItemTrait;
+
 }

@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Marktic\Basket\BasketItems\Models;
 
+use Marktic\Basket\Basket\Models\Basket;
+
+/**
+ * @method Basket getBasket()
+ */
 trait BasketItemsRepositoryTrait
 {
     protected function initRelations()

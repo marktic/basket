@@ -17,6 +17,6 @@ class CreateCartItem extends CreateBasketItem
 
     protected function generateRepository(): RecordManager
     {
-        return BasketModels::orderItems();
+        return BasketModels::cartItems();
     }
 }
