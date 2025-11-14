@@ -11,4 +11,10 @@ class CartItems extends BasketItems
     use CartItemsRepositoryTrait;
 
     public const TABLE = 'mkt_basket_cart_items';
+    public const CONTROLLER = 'mkt_basket-cart_items';
+
+    protected function generateController(): string
+    {
+        return self::CONTROLLER;
+    }
 }

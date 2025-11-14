@@ -9,5 +9,12 @@ use Marktic\Basket\Basket\Models\Baskets;
 class Orders extends Baskets
 {
     use OrderRepositoryTrait;
+
     public const TABLE = 'mkt_basket_orders';
+    public const CONTROLLER = 'mkt_basket-orders';
+
+    protected function generateController(): string
+    {
+        return self::CONTROLLER;
+    }
 }

@@ -10,7 +10,14 @@ use Marktic\Basket\Utility\BasketModels;
 class OrderItems extends BasketItems
 {
     use OrderItemsRepositoryTrait;
+
     public const TABLE = 'mkt_basket_order_items';
+    public const CONTROLLER = 'mkt_basket-order_items';
+
+    protected function generateController(): string
+    {
+        return self::CONTROLLER;
+    }
 
     protected function relationBasketParentClass()
     {

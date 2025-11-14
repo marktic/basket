@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Marktic\Basket\BasketItems\Actions;
 
 use Bytic\Actions\Action;
+use Bytic\Actions\Behaviours\Entities\FindRecord;
 use Bytic\Actions\Behaviours\Entities\HasRepository;
 use Bytic\Actions\Behaviours\Entities\HasResultRecordTrait;
 use Bytic\Actions\Behaviours\HasSubject\HasSubject;
@@ -21,33 +22,64 @@ use Nip\Records\AbstractModels\RecordManager;
  */
 abstract class CreateBasketItem extends Action
 {
-    use HasSubject;
-    use HasResultRecordTrait;
-    use HasRepository;
+    use FindRecord;
 
     /**
      * @var Cart|Order
      */
     protected $basket;
 
+    protected $quantity = 1;
+
     public static function for(PurchasableItemInterface $subject, $basket): self
     {
         $action = new static();
         $action->setSubject($subject);
         $action->basket = $basket;
+        $action->orCreate();
         return $action;
     }
 
-    public function create()
+    protected function withQuantity($quantity): static
     {
-        return $this->getResultRecord();
+        $this->quantity = $quantity;
+        return $this;
     }
 
-    protected function populateResultRecord()
+    public function create(): ?\Nip\Records\AbstractModels\Record
+    {
+        $item = $this->fetch();
+        $item->quantity = $item->quantity + $this->quantity;
+        $item->save();
+        return $item;
+    }
+
+    protected function orCreateData($data)
+    {
+        $data['quantity'] = 0;
+        return $data;
+    }
+
+    protected function populateResultRecord(): void
     {
         $this->resultRecord->populateFromProduct($this->getSubject());
         $this->resultRecord->populateFromCatalog($this->getSubject()->getBasketCatalog());
         $this->resultRecord->populateFromBasket($this->basket);
+    }
+
+    protected function findParams(): array
+    {
+        $subject = $this->getSubject();
+        $basketCatalog = $subject->getBasketCatalog();
+        return [
+            'where' => [
+                ['cart_id = ? ', $this->basket->id],
+                ['catalog_id = ? ', $basketCatalog->id],
+                ['catalog_type = ? ', $basketCatalog->getManager()->getMorphName()],
+                ['product_id = ? ', $subject->id],
+                ['product_type = ? ', $subject->getManager()->getMorphName()],
+            ]
+        ];
     }
 
     protected function generateRepository(): RecordManager
