@@ -6,9 +6,10 @@ namespace Marktic\Basket\Utility;
 
 use ByTIC\PackageBase\Utility\ModelFinder;
 use Marktic\Basket\BasketServiceProvider;
-use Marktic\Basket\Cart\Models\Carts;
+use Marktic\Basket\Carts\Models\Carts;
 use Marktic\Basket\CartItems\Models\CartItems;
 use Marktic\Basket\Order\Models\Orders;
+use Marktic\Basket\OrderItems\Models\OrderItems;
 use Nip\Records\RecordManager;
 
 /**

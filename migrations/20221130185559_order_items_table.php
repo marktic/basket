@@ -51,7 +51,7 @@ final class OrderItemsTable extends AbstractMigration
             ->addIndex(['product_type'])
             ->save();
 
-        $cartTable = PackageConfig::tableName(BasketModels::CARTS);
+        $cartTable = PackageConfig::tableName(BasketModels::ORDERS);
         $table
             ->addForeignKey(
                 'order_id',

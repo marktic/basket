@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace Marktic\Basket\BasketItems\Models;
 
+/**
+ * @property int $catalog_id
+ * @property string $catalog_type
+ * @property int $product_id
+ * @property string $product_type
+ */
 trait BasketItemTrait
 {
     public function populateFromProduct($product)
@@ -19,4 +25,6 @@ trait BasketItemTrait
         $this->catalog_type = $catalog->getModelManager()->getMorphName();
         return $this;
     }
+
+    abstract public function populateFromBasket($basket);
 }

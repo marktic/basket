@@ -6,8 +6,8 @@ namespace Marktic\Basket\Carts\Actions;
 
 use Bytic\Actions\Action;
 use Bytic\Actions\Behaviours\Entities\HasRepository;
-use Marktic\Basket\Cart\Models\Cart;
-use Marktic\Basket\Cart\Models\Carts;
+use Marktic\Basket\Carts\Models\Cart;
+use Marktic\Basket\Carts\Models\Carts;
 use Marktic\Basket\Utility\BasketModels;
 use Nip\Records\AbstractModels\RecordManager;
 use Nip\Utility\Uuid;
@@ -64,7 +64,11 @@ class FindOrInitCurrentCart extends Action
 
     protected function findInSession(): ?Cart
     {
-        $cartId = $this->request->getSession()->get(self::CART_REQUEST_KEY);
+        if ($this->request->hasSession()) {
+            $cartId = $this->request->getSession()->get(self::CART_REQUEST_KEY);
+        } else {
+            $cartId = $_SESSION[self::CART_REQUEST_KEY] ?? null;
+        }
         if ($cartId) {
             return $this->findByUuid($cartId);
         }
@@ -79,12 +83,17 @@ class FindOrInitCurrentCart extends Action
     protected function create()
     {
         $cartId = $this->generateCartId();
-        $cart = $this->getRepository()->createNew();
-        $cart->setUuid($cartId);
+        $cart = $this->getRepository()->getNew();
+        $cart->uuid = $cartId;
         $cart->save();
 
         $this->request->cookies->set(self::CART_REQUEST_KEY, $cartId);
-        $this->request->getSession()->set(self::CART_REQUEST_KEY, $cartId);
+
+        if ($this->request->hasSession()) {
+            $this->request->getSession()->set(self::CART_REQUEST_KEY, $cartId);
+        } else {
+            $_SESSION[self::CART_REQUEST_KEY] = $cartId;
+        }
 
         return $cart;
     }

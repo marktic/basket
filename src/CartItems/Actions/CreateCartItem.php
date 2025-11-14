@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Marktic\Basket\OrderItems\Actions;
+namespace Marktic\Basket\CartItems\Actions;
 
 use Marktic\Basket\BasketItems\Actions\CreateBasketItem;
 use Marktic\Basket\OrderItems\Models\OrderItem;
@@ -12,7 +12,7 @@ use Nip\Records\AbstractModels\RecordManager;
 /**
  * @property OrderItem $resultRecord
  */
-class CreateOrderItem extends CreateBasketItem
+class CreateCartItem extends CreateBasketItem
 {
 
     protected function generateRepository(): RecordManager

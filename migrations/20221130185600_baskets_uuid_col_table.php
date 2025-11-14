@@ -5,9 +5,8 @@ declare(strict_types=1);
 use Marktic\Basket\Utility\BasketModels;
 use Marktic\Basket\Utility\PackageConfig;
 use Phinx\Migration\AbstractMigration;
-use Phinx\Util\Literal;
 
-final class OrderItemsTable extends AbstractMigration
+final class BasketsUuidColTable extends AbstractMigration
 {
     /**
      * Change Method.
@@ -27,8 +26,9 @@ final class OrderItemsTable extends AbstractMigration
 
         foreach ([$cartTable, $orderTable] as $table) {
             $table = $this->table($cartTable);
-            $table->renameColumn('hash', 'uuid')->save();
-            $table->changeColumn('uuid', 'uuid', ['default' => Literal::from('uuid_generate_v4()')])->save();
+            $table->renameColumn('hash', 'uuid');
+            $table->changeColumn('uuid', 'uuid', ['default' => 'uuid_generate_v4()']);
+            $table->save();
         }
     }
 }

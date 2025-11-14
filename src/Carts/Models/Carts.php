@@ -9,6 +9,7 @@ use Marktic\Basket\Utility\BasketModels;
 
 /**
  * @method Cart findOneByField
+ * @method Cart getNew
  */
 class Carts extends Baskets
 {
