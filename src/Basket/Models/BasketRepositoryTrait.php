@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Marktic\Basket\Basket\Models;
 
+use Marktic\Basket\Base\Models\Timestampable\TimestampableManagerTrait;
 use Nip\Records\Traits\HasUuid\HasUuidRecordManagerTrait;
 
 trait BasketRepositoryTrait
 {
     use HasUuidRecordManagerTrait;
-
+    use TimestampableManagerTrait;
 
     protected function initRelations()
     {

@@ -14,6 +14,7 @@ use Marktic\Basket\Utility\BasketModels;
 class Carts extends Baskets
 {
     use CartRepositoryTrait;
+
     public const TABLE = 'mkt_basket_carts';
     public const CONTROLLER = 'mkt_basket-carts';
 

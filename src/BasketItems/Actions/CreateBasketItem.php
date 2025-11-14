@@ -6,9 +6,8 @@ namespace Marktic\Basket\BasketItems\Actions;
 
 use Bytic\Actions\Action;
 use Bytic\Actions\Behaviours\Entities\FindRecord;
-use Bytic\Actions\Behaviours\Entities\HasRepository;
-use Bytic\Actions\Behaviours\Entities\HasResultRecordTrait;
 use Bytic\Actions\Behaviours\HasSubject\HasSubject;
+use Marktic\Basket\Basket\Models\Basket;
 use Marktic\Basket\BasketItems\Models\BasketItem;
 use Marktic\Basket\Carts\Models\Cart;
 use Marktic\Basket\Order\Models\Order;
@@ -23,6 +22,7 @@ use Nip\Records\AbstractModels\RecordManager;
 abstract class CreateBasketItem extends Action
 {
     use FindRecord;
+    use HasSubject;
 
     /**
      * @var Cart|Order
@@ -56,6 +56,15 @@ abstract class CreateBasketItem extends Action
 
     protected function orCreateData($data)
     {
+        $basketFk = $this->getBasketFk();
+        $subject = $this->getSubject();
+        $basketCatalog = $subject->getBasketCatalog();
+
+        $data[$basketFk] = $this->basket->id;
+        $data['catalog_id'] = $basketCatalog->id;
+        $data['catalog_type'] = $basketCatalog->getManager()->getMorphName();
+        $data['product_id'] = $subject->id;
+        $data['product_type'] = $subject->getManager()->getMorphName();
         $data['quantity'] = 0;
         return $data;
     }
@@ -69,17 +78,23 @@ abstract class CreateBasketItem extends Action
 
     protected function findParams(): array
     {
+        $basketFk = $this->getBasketFk();
         $subject = $this->getSubject();
         $basketCatalog = $subject->getBasketCatalog();
         return [
             'where' => [
-                ['cart_id = ? ', $this->basket->id],
+                [$basketFk . ' = ? ', $this->basket->id],
                 ['catalog_id = ? ', $basketCatalog->id],
                 ['catalog_type = ? ', $basketCatalog->getManager()->getMorphName()],
                 ['product_id = ? ', $subject->id],
                 ['product_type = ? ', $subject->getManager()->getMorphName()],
             ]
         ];
+    }
+
+    protected function getBasketFk(): string
+    {
+        return $this->basket->getManager()->getPrimaryFK();
     }
 
     protected function generateRepository(): RecordManager

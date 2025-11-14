@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Marktic\Basket\BasketItems\Models;
 
+use Marktic\Basket\Base\Models\Timestampable\TimestampableManagerTrait;
 use Marktic\Basket\Basket\Models\Basket;
 
 /**
@@ -11,6 +12,8 @@ use Marktic\Basket\Basket\Models\Basket;
  */
 trait BasketItemsRepositoryTrait
 {
+    use TimestampableManagerTrait;
+
     protected function initRelations()
     {
         parent::initRelations();

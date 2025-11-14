@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Marktic\Basket\Base\Models\Behaviours\Timestampable;
+namespace Marktic\Basket\Base\Models\Timestampable;
 
 trait TimestampableTrait
 {
