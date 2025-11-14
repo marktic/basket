@@ -13,4 +13,9 @@ trait CartItemsRepositoryTrait
     {
         return PackageConfig::tableName(BasketModels::CART_ITEMS, CartItems::TABLE);
     }
+
+    protected function relationBasketParentClass(): string
+    {
+        return BasketModels::cartsClass();
+    }
 }

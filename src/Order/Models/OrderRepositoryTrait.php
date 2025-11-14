@@ -20,7 +20,7 @@ trait OrderRepositoryTrait
         return BasketModels::orderItemsClass();
     }
 
-    public function generatePrimaryFK()
+    public function generatePrimaryFK(): string
     {
         return 'order_id';
     }
