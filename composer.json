@@ -24,7 +24,9 @@
     "bytic/translation": "^1.0 || ^2.0"
   },
   "require-dev": {
-    "bytic/phpqatools": "^1.0"
+    "bytic/phpqatools": "^1.0",
+    "paytic/payments": "^1.0||^2.0",
+    "paytic/payments-gateways": "^1.0||^2.0"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
@@ -44,7 +46,8 @@
       "phpstan/extension-installer": true,
       "ergebnis/composer-normalize": true,
       "dealerdirect/phpcodesniffer-composer-installer": true,
-      "bytic/phpqatools": true
+      "bytic/phpqatools": true,
+      "php-http/discovery": true
     }
   }
 }
