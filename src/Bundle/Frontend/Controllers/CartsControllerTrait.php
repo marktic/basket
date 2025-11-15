@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace Marktic\Basket\Bundle\Frontend\Controllers;
 
-use Marktic\Basket\BasketItems\Actions\FindBasketItems;
+use Marktic\Basket\CartItems\Actions\FindCartItems;
 use Marktic\Basket\PurchasableCatalog\Actions\DetermineCartPaymentMethods;
 
-trait CartControllerTrait
+trait CartsControllerTrait
 {
 
     public function preview()
     {
         $cart = $this->getCart();
-        $cartItems = FindBasketItems::for($cart)->withCatalog($this->getBasketCatalog());
+        $cartItems = FindCartItems::for($cart)
+            ->withCatalog($this->getBasketCatalog())
+            ->fetch();
         if ($cartItems && count($cartItems) < 1) {
             $this->redirect($cart->compileURL('empty'));
         }

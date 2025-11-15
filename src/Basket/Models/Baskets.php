@@ -9,4 +9,6 @@ use Nip\Records\RecordManager;
 abstract class Baskets extends RecordManager
 {
     use BasketRepositoryTrait;
+    use \ByTIC\Records\Behaviors\I18n\I18nRecordsTrait;
+    use \ByTIC\Records\Behaviors\HasForms\HasFormsRecordsTrait;
 }
