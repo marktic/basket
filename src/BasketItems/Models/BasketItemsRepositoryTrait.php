@@ -24,6 +24,14 @@ trait BasketItemsRepositoryTrait
     protected function initRelationsBasket(): void
     {
         $this->initRelationsBasketParent();
+        $this->initRelationsBasketProduct();
+    }
+    protected function initRelationsBasketProduct(): void
+    {
+        $this->morphTo(
+            'BasketProduct',
+            ['morphPrefix' => 'product']
+        );
     }
 
     protected function initRelationsBasketParent(): void

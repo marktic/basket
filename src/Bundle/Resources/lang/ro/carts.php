@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'carts.labels.title.summary' => 'Sumar cos de cumpărături',
+    'mkt_basket-carts.labels.title.summary' => 'Sumar cos de cumpărături',
 ];
