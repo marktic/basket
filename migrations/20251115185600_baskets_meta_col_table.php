@@ -25,8 +25,9 @@ final class BasketsMetaColTable extends AbstractMigration
         $orderTable = PackageConfig::tableName(BasketModels::ORDERS);
 
         foreach ([$cartTable, $orderTable] as $table) {
-            $table = $this->table($cartTable);
+            $table = $this->table($table);
             $table->changeColumn('properties', 'json', ['null' => true]);
+            $table->save();
             $table->renameColumn('properties', 'metadata');
             $table->save();
         }

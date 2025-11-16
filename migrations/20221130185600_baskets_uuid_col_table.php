@@ -25,8 +25,9 @@ final class BasketsUuidColTable extends AbstractMigration
         $orderTable = PackageConfig::tableName(BasketModels::ORDERS);
 
         foreach ([$cartTable, $orderTable] as $table) {
-            $table = $this->table($cartTable);
+            $table = $this->table($table);
             $table->renameColumn('hash', 'uuid');
+            $table->save();
             $table->changeColumn('uuid', 'uuid', ['default' => 'uuid_generate_v4()']);
             $table->save();
         }
