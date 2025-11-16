@@ -6,6 +6,7 @@ namespace Marktic\Basket\Bundle\Frontend\Controllers;
 
 use Marktic\Basket\CartItems\Actions\FindCartItems;
 use Marktic\Basket\PurchasableCatalog\Actions\DetermineCartPaymentMethods;
+use Marktic\Pricing\PriceOptions\Actions\FindForSaleable;
 
 trait CartsControllerTrait
 {
@@ -19,6 +20,8 @@ trait CartsControllerTrait
         if ($cartItems && count($cartItems) < 1) {
             $this->redirect($cart->compileURL('empty'));
         }
+
+        $saleableOptions = FindForSaleable::for($this->getBasketCatalog())->fetch();
 
         $cartPaymentMethods = DetermineCartPaymentMethods::for($cart)
             ->forTenant($this->getBasketPaymentTenant())
@@ -40,6 +43,8 @@ trait CartsControllerTrait
         $this->payload()->with(
             [
                 'cart' => $cart,
+                'cart_currency' => $saleableOptions->getCurrencyDefaultCode(),
+                'cart_currencies' => $saleableOptions->getCurrencyActive(),
                 'cItems' => $cartItems,
 //                'form' => $form,
                 'payment_methods' => $cartPaymentMethods,

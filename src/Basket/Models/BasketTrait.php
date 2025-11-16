@@ -6,6 +6,7 @@ namespace Marktic\Basket\Basket\Models;
 
 use Marktic\Basket\Base\Models\HasMetadata\RecordHasMetadataTrait;
 use Marktic\Basket\Base\Models\Timestampable\TimestampableTrait;
+use Marktic\Basket\Basket\Dto\BasketMetadata;
 
 trait BasketTrait
 {

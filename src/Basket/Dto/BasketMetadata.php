@@ -13,9 +13,9 @@ class BasketMetadata extends Metadata
 {
     public const KEY_SPORTS = 'currency';
 
-    public function getCurrency(): string
+    public function getCurrency($default = null): string
     {
-        return $this->get(self::KEY_SPORTS);
+        return $this->get(self::KEY_SPORTS, $default);
     }
 
     public function setCurrency(string $currency): self
