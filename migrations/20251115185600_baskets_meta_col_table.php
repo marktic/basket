@@ -6,7 +6,7 @@ use Marktic\Basket\Utility\BasketModels;
 use Marktic\Basket\Utility\PackageConfig;
 use Phinx\Migration\AbstractMigration;
 
-final class BasketsUuidColTable extends AbstractMigration
+final class BasketsMetaColTable extends AbstractMigration
 {
     /**
      * Change Method.
