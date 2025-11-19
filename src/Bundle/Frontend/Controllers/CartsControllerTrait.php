@@ -27,9 +27,8 @@ trait CartsControllerTrait
             ->forTenant($this->getBasketPaymentTenant())
             ->find();
 
-//        $form = $eventCart->getForm('confirm');
-//        $form->setEvent($cartEvent);
-//        $form->setPaymentMethods($cartPaymentMethods);
+        $form = $cart->getForm('confirm');
+        $form->setPaymentMethods($cartPaymentMethods);
 
 //        if ($form->execute()) {
 //            $order = CheckoutFromForm::for($form)->evaluate();
@@ -46,7 +45,7 @@ trait CartsControllerTrait
                 'cart_currency' => $saleableOptions->getCurrencyDefaultCode(),
                 'cart_currencies' => $saleableOptions->getCurrencyActive(),
                 'cItems' => $cartItems,
-//                'form' => $form,
+                'form' => $form,
                 'payment_methods' => $cartPaymentMethods,
             ]
         );
