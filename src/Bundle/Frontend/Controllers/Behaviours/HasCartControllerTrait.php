@@ -19,6 +19,8 @@ trait HasCartControllerTrait
 
     protected function generateCart(): Cart
     {
-        return FindOrInitCurrentCart::forRequest($this->getRequest())->fetch();
+        return FindOrInitCurrentCart
+            ::forRequest($this->getRequest())
+            ->fetch();
     }
 }
