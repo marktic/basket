@@ -22,9 +22,9 @@ trait AbstractBasketControllerTrait
     {
         parent::registerViewPaths($view);
 
-        $path = __DIR__ . '/../../Resources/views/admin';
+        $path = __DIR__ . '/../views/';
         $view->addPath($path);
-        $view->addPath($path, 'MarkticPricing');
+        $view->addPath($path, 'MarkticBasket');
     }
 
     abstract protected function getBasketCatalog();

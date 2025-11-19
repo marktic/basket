@@ -11,4 +11,6 @@ return [
     'mkt_basket-carts.labels.confirm.title' => 'Confirmă comanda ta',
     'mkt_basket-carts.labels.confirm.description' => 'Te rugăm să verifici detaliile comenzii tale înainte de a o confirma.',
     'mkt_basket-carts.labels.confirm.btn' => 'Confirmă comanda',
+
+    'mkt_basket-carts.messages.preview.info_payment' => 'Te rugăm să finalizezi înscrierea prin selectarea metodei de plată!',
 ];

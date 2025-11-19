@@ -60,6 +60,7 @@ class CheckoutCart
         $this->order = BasketModels::orders()->getNew();
         $this->order->id_user = $this->cart->id_user;
         $this->order->id_payment_method = $this->cart->id_payment_method;
+        $this->order->currency_code = $this->cart->getCurrency();
         $this->order->metadata = $this->cart->metadata;
         $this->order->insert();
         return $this->order;
