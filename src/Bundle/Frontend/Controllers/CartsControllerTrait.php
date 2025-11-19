@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Marktic\Basket\Bundle\Frontend\Controllers;
 
 use Marktic\Basket\CartItems\Actions\FindCartItems;
+use Marktic\Basket\Carts\Actions\Checkout\CheckoutFromForm;
 use Marktic\Basket\PurchasableCatalog\Actions\DetermineCartPaymentMethods;
+use Marktic\Basket\Utility\BasketModels;
 use Marktic\Pricing\PriceOptions\Actions\FindForSaleable;
 
 trait CartsControllerTrait
@@ -30,14 +32,14 @@ trait CartsControllerTrait
         $form = $cart->getForm('confirm');
         $form->setPaymentMethods($cartPaymentMethods);
 
-//        if ($form->execute()) {
-//            $order = CheckoutFromForm::for($form)->evaluate();
-//
-//            $redirect = $order->compileURL('confirm');
-//            $this->flashRedirect(ModelLocator::orders()->getMessage('add'), $redirect, 'success', 'orders');
-//        } else {
-//			$form->addMessage(\KM42\Register\Library\Records\Locator\ModelLocator::carts()->getMessage('preview.info_payment'),'info');
-//        }
+        if ($form->execute()) {
+            $order = CheckoutFromForm::for($form)->evaluate();
+
+            $redirect = $order->compileURL('confirm');
+            $this->flashRedirect(BasketModels::orders()->getMessage('add'), $redirect, 'success', 'orders');
+        } else {
+			$form->addMessage(BasketModels::carts()->getMessage('preview.info_payment'),'info');
+        }
 
         $this->payload()->with(
             [

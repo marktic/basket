@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Marktic\Basket\BasketItems\Models;
 
+use Marktic\Basket\Basket\Models\Basket;
 use Marktic\Basket\PurchasableItems\Models\PurchasableItemInterface;
 use Marktic\Pricing\PriceAmounts\ModelsRelated\SaleableHasAmountsRecordTrait;
 use Nip\Records\AbstractModels\Record;
@@ -15,6 +16,7 @@ use Nip\Records\AbstractModels\Record;
  * @property string $product_type
  *
  * @method PurchasableItemInterface|SaleableHasAmountsRecordTrait getBasketProduct()
+ * @method Basket getBasket()
  */
 trait BasketItemTrait
 {

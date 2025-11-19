@@ -31,7 +31,9 @@ abstract class CreateBasketItem extends Action
 
     protected $quantity = 1;
 
-    public static function for(PurchasableItemInterface $subject, $basket): self
+    protected $metadata = [];
+
+    public static function for(PurchasableItemInterface $subject, $basket): static
     {
         $action = new static();
         $action->setSubject($subject);
@@ -40,9 +42,15 @@ abstract class CreateBasketItem extends Action
         return $action;
     }
 
-    protected function withQuantity($quantity): static
+    public function withQuantity($quantity): static
     {
         $this->quantity = $quantity;
+        return $this;
+    }
+
+    public function withMetadata($metadata): static
+    {
+        $this->metadata = $metadata;
         return $this;
     }
 
@@ -50,6 +58,7 @@ abstract class CreateBasketItem extends Action
     {
         $item = $this->fetch();
         $item->quantity = $item->quantity + $this->quantity;
+        $item->metadata = $this->metadata;
         $item->save();
         return $item;
     }

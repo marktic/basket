@@ -11,9 +11,10 @@ use Marktic\Basket\Basket\Actions\DetermineBasketCurrencySettings;
 use Marktic\Basket\Basket\Dto\BasketMetadata;
 use Marktic\Basket\BasketItems\Models\BasketItem;
 use Money\Currency;
+use Nip\Records\Collections\Collection;
 
 /**
- * @method BasketItem[] getBasketItems()
+ * @method BasketItem[]|Collection getBasketItems()
  */
 trait BasketTrait
 {
