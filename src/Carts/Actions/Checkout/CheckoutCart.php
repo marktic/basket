@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Marktic\Basket\Carts\Actions\Checkout;
 
+use Marktic\Basket\Carts\Events\Checkout\CheckoutOrderProcessedEvent;
+use Marktic\Basket\Carts\Events\Checkout\CheckoutStartEvent;
 use Marktic\Basket\Carts\Models\Cart;
 use Marktic\Basket\Order\Actions\AddOrderItemToOrder;
 use Marktic\Basket\Order\Models\Order;
@@ -43,10 +45,13 @@ class CheckoutCart
 
     public function evaluate()
     {
+        CheckoutStartEvent::dispatch($this->cart);
+
         $order = $this->createOrder();
         $this->createOrderItems();
         $this->updateCart();
 
+        CheckoutOrderProcessedEvent::dispatch($this->order);
         return $order;
     }
 

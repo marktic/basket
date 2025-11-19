@@ -12,6 +12,7 @@ use Marktic\Basket\Basket\Dto\BasketMetadata;
 use Marktic\Basket\BasketItems\Models\BasketItem;
 use Money\Currency;
 use Nip\Records\Collections\Collection;
+use Nip\Records\Traits\HasUuid\HasUuidRecordTrait;
 
 /**
  * @method BasketItem[]|Collection getBasketItems()
@@ -19,6 +20,7 @@ use Nip\Records\Collections\Collection;
 trait BasketTrait
 {
     use TimestampableTrait;
+    use HasUuidRecordTrait;
     use HasFormsRecordTrait;
     use RecordHasMetadataTrait;
 

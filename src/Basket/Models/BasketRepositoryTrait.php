@@ -33,10 +33,15 @@ trait BasketRepositoryTrait
         );
     }
 
-    abstract function relationBasketItemsClass() : string;
+    abstract function relationBasketItemsClass(): string;
+
+    public function getUrlPK(): string
+    {
+        return 'uuid';
+    }
 
     public function uuidColumn(): string
     {
-        return 'hash';
+        return 'uuid';
     }
 }

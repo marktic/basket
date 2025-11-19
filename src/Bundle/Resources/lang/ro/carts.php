@@ -3,6 +3,9 @@
 return [
     'mkt_basket-carts.labels.title.summary' => 'Sumar cos de cumpărături',
     'mkt_basket-carts.labels.title.payment' => 'Metoda de plată',
+
+    'mkt_basket-carts.form.currency' => 'Monedă',
+
     'mkt_basket-carts.form.confirm.submit' => 'Confirmă comanda',
 
     'mkt_basket-carts.labels.confirm.title' => 'Confirmă comanda ta',
