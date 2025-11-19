@@ -17,10 +17,26 @@ class DetermineBasketCurrencySettings extends Action
 {
     use HasSubject;
 
-    public function execute()
+    protected static $cache = [];
+
+    public function execute(): CurrencySettings
+    {
+        $cacheKey = $this->determineCacheKey();
+        if (!isset(static::$cache[$cacheKey])) {
+            static::$cache[$cacheKey] = $this->buildSettings();
+        }
+        return static::$cache[$cacheKey];
+    }
+
+    protected function determineCacheKey(): string
+    {
+        return spl_object_hash($this->getSubject());
+    }
+
+    protected function buildSettings(): CurrencySettings
     {
         $basket = $this->getSubject();
-        $basketItems = $basket->getItems();
+        $basketItems = $basket->getBasketItems();
         $basketItems->loadRelations(['BasketProduct']);
 
         $settings = new CurrencySettings();

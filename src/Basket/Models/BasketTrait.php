@@ -7,10 +7,14 @@ namespace Marktic\Basket\Basket\Models;
 use ByTIC\Records\Behaviors\HasForms\HasFormsRecordTrait;
 use Marktic\Basket\Base\Models\HasMetadata\RecordHasMetadataTrait;
 use Marktic\Basket\Base\Models\Timestampable\TimestampableTrait;
+use Marktic\Basket\Basket\Actions\DetermineBasketCurrencySettings;
 use Marktic\Basket\Basket\Dto\BasketMetadata;
-use Marktic\Basket\BasketItems\Actions\DetermineBasketItemCurrencySettings;
+use Marktic\Basket\BasketItems\Models\BasketItem;
 use Money\Currency;
 
+/**
+ * @method BasketItem[] getBasketItems()
+ */
 trait BasketTrait
 {
     use TimestampableTrait;
@@ -57,7 +61,7 @@ trait BasketTrait
         $currencies = $this->getMetadata()->getCurrencies($default ?? $this->getCurrencyDefault());
         $this->setCurrencies($currencies);
         $this->save();
-        return $currency;
+        return $currencies;
     }
 
     public function setCurrencies($currencies)
@@ -68,13 +72,13 @@ trait BasketTrait
 
     protected function getCurrencyDefault()
     {
-        $settings = DetermineBasketItemCurrencySettings::for($this)->execute();
+        $settings = DetermineBasketCurrencySettings::for($this)->execute();
         return $settings->getDefaultCurrencyCode();
     }
 
     protected function getAvailableCurrenciesDefault()
     {
-        $settings = DetermineBasketItemCurrencySettings::for($this)->execute();
+        $settings = DetermineBasketCurrencySettings::for($this)->execute();
         return $settings->getAvailableCurrencyCodes();
     }
 }
