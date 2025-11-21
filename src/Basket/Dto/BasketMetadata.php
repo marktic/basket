@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Marktic\Basket\Basket\Dto;
 
-use ByTIC\DataObjects\Casts\Metadata\Metadata;
+use Marktic\Pricing\Base\Configurations\ModelConfiguration;
 use Money\Currency;
 
 /**
  *
  */
-class BasketMetadata extends Metadata
+class BasketMetadata extends ModelConfiguration
 {
     public const KEY_CURRENCY = 'currency';
 

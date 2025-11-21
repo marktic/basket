@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Marktic\Basket\Basket\Models;
 
+use ByTIC\Money\Currencies\Actions\InitCurrency;
 use ByTIC\Records\Behaviors\HasForms\HasFormsRecordTrait;
 use Marktic\Basket\Base\Models\HasMetadata\RecordHasMetadataTrait;
 use Marktic\Basket\Base\Models\Timestampable\TimestampableTrait;
+use Marktic\Basket\Basket\Actions\BasketCalculator;
 use Marktic\Basket\Basket\Actions\DetermineBasketCurrencySettings;
 use Marktic\Basket\Basket\Dto\BasketMetadata;
 use Marktic\Basket\BasketItems\Models\BasketItem;
@@ -16,6 +18,7 @@ use Nip\Records\Traits\HasUuid\HasUuidRecordTrait;
 
 /**
  * @method BasketItem[]|Collection getBasketItems()
+ * @method BasketMetadata getMetadata()
  */
 trait BasketTrait
 {
@@ -31,15 +34,27 @@ trait BasketTrait
 
     public function getTotal($currency = null)
     {
-        return 10;
+        $metadata = $this->getMetadata();
+        $value = $metadata->getWithCurrency('amount', $currency, function () use ($currency) {
+            return $this->calculateTotal($currency);
+        });
+        $metadata->setWithCurrency('amount', $value, $currency);
+        return $value;
     }
+
+    protected function calculateTotal($currency = null)
+    {
+        return BasketCalculator::for($this)->getTotal($currency);
+    }
+
+
 
     /**
      * @return Currency
      */
     public function getCurrency($default = null): Currency
     {
-        return $this->getMetadata()->getCurrency($default ?? $this->getCurrencyDefault());
+        return $this->guardCurrency(null, $default);
     }
 
     public function getAndSetCurrency($default = null): Currency
@@ -57,6 +72,19 @@ trait BasketTrait
     {
         $this->getMetadata()->setCurrency($currency);
         return $this;
+    }
+
+    protected function guardCurrency($currency, $default = null): Currency
+    {
+        if ($currency !== null) {
+            return InitCurrency::from($currency);
+        }
+        $currencyCode = $this->currency_code;
+        if ($currencyCode !== null) {
+            return InitCurrency::from($currencyCode);
+        }
+        $currencyCode = $this->getMetadata()->getCurrency($default ?? $this->getCurrencyDefault());
+        return InitCurrency::from($currencyCode);
     }
 
     public function getAndSetAvailableCurrencies($default = null): array|null

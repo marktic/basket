@@ -20,6 +20,12 @@ use Nip\Records\AbstractModels\Record;
  */
 trait BasketItemTrait
 {
+
+    public function getQuantity(): int
+    {
+        return $this->getPropertyRaw('quantity');
+    }
+
     /**
      * @param Record $product
      * @return $this
