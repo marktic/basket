@@ -15,7 +15,6 @@ class BasketItemCalculator extends BaseCalculator
 {
     protected function calculateSubTotal(): int
     {
-        $total = Money::fromCents(0, $this->currency);
         $basketItem = $this->getSubject();
         $quantity = $basketItem->getQuantity();
         $basketProduct = $basketItem->getBasketProduct();

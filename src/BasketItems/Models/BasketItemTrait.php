@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Marktic\Basket\BasketItems\Models;
 
 use Marktic\Basket\Basket\Models\Basket;
+use Marktic\Basket\BasketItems\Actions\BasketItemCalculator;
 use Marktic\Basket\PurchasableItems\Models\PurchasableItemInterface;
 use Marktic\Pricing\PriceAmounts\ModelsRelated\SaleableHasAmountsRecordTrait;
 use Nip\Records\AbstractModels\Record;
@@ -23,7 +24,17 @@ trait BasketItemTrait
 
     public function getQuantity(): int
     {
-        return $this->getPropertyRaw('quantity');
+        return (int)$this->getPropertyRaw('quantity');
+    }
+
+    public function getTotal($currency = null)
+    {
+        return BasketItemCalculator::forCurrency($this, $currency)->getTotal();
+    }
+
+    public function getTotalMoney($currency = null)
+    {
+        return BasketItemCalculator::forCurrency($this, $currency)->getTotalMoney();
     }
 
     /**

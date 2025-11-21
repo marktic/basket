@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Marktic\Basket\Basket\Models;
 
 use ByTIC\Money\Currencies\Actions\InitCurrency;
+use ByTIC\Money\Utility\Money;
 use ByTIC\Records\Behaviors\HasForms\HasFormsRecordTrait;
 use Marktic\Basket\Base\Models\HasMetadata\RecordHasMetadataTrait;
 use Marktic\Basket\Base\Models\Timestampable\TimestampableTrait;
@@ -34,6 +35,7 @@ trait BasketTrait
 
     public function getTotal($currency = null)
     {
+        $currency = $this->guardCurrency($currency);
         $metadata = $this->getMetadata();
         $value = $metadata->getWithCurrency('amount', $currency, function () use ($currency) {
             return $this->calculateTotal($currency);
@@ -42,12 +44,17 @@ trait BasketTrait
         return $value;
     }
 
-    protected function calculateTotal($currency = null)
+    public function getTotalMoney($currency = null): ?\ByTIC\Money\Money
     {
-        return BasketCalculator::for($this)->getTotal($currency);
+        $currency = $this->guardCurrency($currency);
+        $amount = $this->getTotal($currency);
+        return Money::fromCents($amount, $currency);
     }
 
-
+    protected function calculateTotal($currency = null)
+    {
+        return BasketCalculator::forCurrency($this, $currency)->getTotal();
+    }
 
     /**
      * @return Currency

@@ -16,11 +16,16 @@ abstract class BaseCalculator extends Action
 
     protected ?Currency $currency = null;
 
-    public static function forCurrency($subject, string $currency = null): static
+    public static function forCurrency($subject, string|Currency $currency = null): static
     {
         static $cache = [];
 
-        $currency = $subject->getCurrency($currency);
+        if ($currency === null) {
+            $currency = $subject->getCurrency();
+        } else {
+            $currency = InitCurrency::from($currency);
+        }
+
         $key = spl_object_id($subject) . $currency->getCode();
         if (!isset($cache[$key])) {
             $calculator = self::for($subject)->withCurrency($currency);
@@ -31,14 +36,17 @@ abstract class BaseCalculator extends Action
 
     public function getTotal()
     {
-        if ($this->getSubject()->amount > 0 && $this->getSubject()->currency_code == $this->currency->getCode()) {
-            return $this->getSubject()->amount;
-        }
-        $amountMeta = $this->getSubject()->getMetadata()->getWithCurrency('amount', $this->currency);
-        if ($amountMeta > 0) {
-            return $amountMeta;
-        }
         return $this->getAttributeWithGenerator('total', function () {
+            $subject = $this->getSubject();
+            if ($subject->amount > 0 && $subject->currency_code == $this->currency->getCode()) {
+                return $subject->amount;
+            }
+            if (method_exists($subject, 'getMetadata')) {
+                $amountMeta = $subject->getMetadata()->getWithCurrency('amount', $this->currency);
+                if ($amountMeta > 0) {
+                    return $amountMeta;
+                }
+            }
             return $this->calculateTotal();
         });
     }
@@ -71,7 +79,7 @@ abstract class BaseCalculator extends Action
     protected function calculateTotal(): int
     {
         $total = Money::fromCents(0, $this->currency);
-        $total->add($this->getSubTotalMoney());
+        $total = $total->add($this->getSubTotalMoney());
         return $total->toCents();
     }
 

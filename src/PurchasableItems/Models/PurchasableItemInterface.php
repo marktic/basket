@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Marktic\Basket\PurchasableItems\Models;
 
-use Money\Money;
+use \ByTIC\Money\Money;
 
 interface PurchasableItemInterface
 {

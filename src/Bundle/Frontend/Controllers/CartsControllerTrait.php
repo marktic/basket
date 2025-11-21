@@ -6,10 +6,14 @@ namespace Marktic\Basket\Bundle\Frontend\Controllers;
 
 use Marktic\Basket\CartItems\Actions\FindCartItems;
 use Marktic\Basket\Carts\Actions\Checkout\CheckoutFromForm;
+use Marktic\Basket\Carts\Models\Cart;
 use Marktic\Basket\PurchasableCatalog\Actions\DetermineCartPaymentMethods;
 use Marktic\Basket\Utility\BasketModels;
 use Marktic\Pricing\PriceOptions\Actions\FindForSaleable;
 
+/**
+ *
+ */
 trait CartsControllerTrait
 {
 
@@ -24,6 +28,8 @@ trait CartsControllerTrait
         }
 
         $saleableOptions = FindForSaleable::for($this->getBasketCatalog())->fetch();
+        $cartCurrency = $saleableOptions->getCurrencyDefaultCode();
+        $cartCurrency = $cart->getAndSetCurrency($cartCurrency);
 
         $cartPaymentMethods = DetermineCartPaymentMethods::for($cart)
             ->forTenant($this->getBasketPaymentTenant())
@@ -44,7 +50,7 @@ trait CartsControllerTrait
         $this->payload()->with(
             [
                 'cart' => $cart,
-                'cart_currency' => $saleableOptions->getCurrencyDefaultCode(),
+                'cart_currency' => $cartCurrency,
                 'cart_currencies' => $saleableOptions->getCurrencyActive(),
                 'cItems' => $cartItems,
                 'form' => $form,
@@ -61,6 +67,9 @@ trait CartsControllerTrait
 
     }
 
+    /**
+     * @return Cart
+     */
     abstract protected function getCart();
 
     abstract protected function getBasketPaymentTenant();
