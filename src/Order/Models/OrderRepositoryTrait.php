@@ -6,12 +6,11 @@ namespace Marktic\Basket\Order\Models;
 
 use Marktic\Basket\Utility\BasketModels;
 use Marktic\Basket\Utility\PackageConfig;
-use Paytic\Payments\Models\AbstractModels\HasPaymentMethod\HasPaymentMethodRecord;
-use Paytic\Payments\Models\AbstractModels\HasPaymentMethod\HasPaymentMethodRepository;
+use Paytic\Payments\PaymentMethods\ModelsRelated\HasPaymentMethod\HasPaymentMethodRepositoryTrait;
 
 trait OrderRepositoryTrait
 {
-    use HasPaymentMethodRepository;
+    use HasPaymentMethodRepositoryTrait;
 
     protected function generateTable(): string
     {
