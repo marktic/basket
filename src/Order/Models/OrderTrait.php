@@ -12,4 +12,12 @@ use Paytic\Payments\Models\AbstractModels\HasPaymentMethod\HasPaymentMethodRecor
 trait OrderTrait
 {
     use HasPaymentMethodRecord;
+
+    /**
+     * @return string
+     */
+    public function compileThankYouOrderUrl()
+    {
+        return $this->compileURL('ThankYou');
+    }
 }

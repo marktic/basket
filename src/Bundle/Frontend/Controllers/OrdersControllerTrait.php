@@ -6,6 +6,7 @@ namespace Marktic\Basket\Bundle\Frontend\Controllers;
 
 
 use Marktic\Basket\Order\Models\Order;
+use Paytic\Payments\Models\Methods\Types\BankTransfer;
 use Paytic\Payments\Utility\PaymentsModels;
 
 trait OrdersControllerTrait
@@ -15,14 +16,12 @@ trait OrdersControllerTrait
     {
         $item = $this->itemInitView();
 
-        $paymentMethod = $item->getPayment_Method();
+        $paymentMethod = $item->getPaymentMethod();
 
         $redirectURL = $item->compileThankYouOrderUrl();
         $redirectTarget = '';
-        if (strpos($redirectURL, '42km') === false) {
-            $redirectTarget = '_top';
-        }
-        if (strpos($redirectURL, 'sportic') === false) {
+        $baseUrl = request()->getBaseUrl();
+        if (strpos($redirectURL, $baseUrl) === false) {
             $redirectTarget = '_top';
         }
 
@@ -36,8 +35,12 @@ trait OrdersControllerTrait
             }
         }
 
-        $this->getView()->set('redirectUrl', $redirectURL);
-        $this->getView()->set('redirectTarget', $redirectTarget);
+        $this->payload()->with(
+            [
+                'redirectUrl' => $redirectURL,
+                'redirectTarget' => $redirectTarget,
+            ]
+        );
     }
 
     /**
@@ -45,9 +48,9 @@ trait OrdersControllerTrait
      */
     protected function itemInitView()
     {
-        $item = $this->getModelFromRequest();
-        $oItems = $item->getItems();
-        $payments = $item->getPayments();
+        /** @var Order $item */
+        $item = $this->getModelFromRequest(['uuid','uuid']);
+        $oItems = $item->getBasketItems();
 
         $this->payload()->with(
             [
@@ -55,8 +58,7 @@ trait OrdersControllerTrait
                 'item' => $item,
                 'order_items' => $oItems,
                 'orderCurrency' => $item->getCurrency(),
-                'payments' => $payments,
-                'payment_method' => $item->getPayment_Method(),
+                'payment_method' => $item->getPaymentMethod(),
             ]
         );
 
