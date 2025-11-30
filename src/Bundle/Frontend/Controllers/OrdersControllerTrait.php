@@ -27,11 +27,12 @@ trait OrdersControllerTrait
 
         $paymentRepository = PaymentsModels::purchases();
         if ($paymentMethod) {
+            $urlPk = $item->getManager()->getUrlPK();
             if ($paymentMethod->checkConfirmRedirect()) {
-                $redirectURL = $paymentRepository->compileURL('GenerateFromOrder', ['order' => $item->getHash()]);
+                $redirectURL = $paymentRepository->compileURL('GenerateFromOrder', ['order' => $item->$urlPk]);
                 $redirectTarget = '_top';
             } elseif ($paymentMethod->getType() instanceof BankTransfer) {
-                $redirectURL = $paymentRepository->compileURL('OrderInstructions', ['order' => $item->getHash()]);
+                $redirectURL = $paymentRepository->compileURL('OrderInstructions', ['order' => $item->$urlPk]);
             }
         }
 

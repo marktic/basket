@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Marktic\Basket;
 
 use ByTIC\PackageBase\BaseBootableServiceProvider;
+use Marktic\Basket\Utility\BasketModels;
 use Marktic\Basket\Utility\PackageConfig;
 
 /**
@@ -33,13 +34,12 @@ class BasketServiceProvider extends BaseBootableServiceProvider
 //        $this->commands(
 //        );
     }
-
-    public function provides(): array
+    public function boot(): void
     {
-        return array_merge(
-            [
-            ],
-            parent::provides()
-        );
+        parent::boot();
+        BasketModels::carts();
+        BasketModels::cartItems();
+        BasketModels::orders();
+        BasketModels::orderItems();
     }
 }
