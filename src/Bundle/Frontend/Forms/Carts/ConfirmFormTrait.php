@@ -7,6 +7,7 @@ namespace Marktic\Basket\Bundle\Frontend\Forms\Carts;
 use Marktic\Basket\Carts\Models\Cart;
 use Marktic\Basket\Utility\BasketModels;
 use Nip\Records\Collections\Collection;
+use Paytic\Payments\MethodLinks\Models\PaymentMethodLink;
 use Paytic\Payments\Models\Methods\PaymentMethod;
 use Paytic\Payments\Utility\PaymentsModels;
 
@@ -21,6 +22,7 @@ trait ConfirmFormTrait
     protected $paymentMethods = null;
 
     protected $currency = null;
+
     public function init()
     {
         parent::init();
@@ -51,21 +53,29 @@ trait ConfirmFormTrait
     protected function initializePaymentMethodsFields(): void
     {
         $this->paymentMethods = $this->paymentMethods ?: $this->getModel()->getPaymentMethods();
-        if (count($this->paymentMethods)) {
-            $this->addRadioGroup('id_payment_method', PaymentsModels::methods()->getLabel('title'), true);
-            $methodsElement = $this->getElement('id_payment_method');
-            $methodsElement->getRenderer()->setSeparator('');
-            foreach ($this->paymentMethods as $method) {
-                if ($method->isVisible() && $method->supportsCurrency($this->currency)) {
-                    $methodsElement->addOption($method->id, $method->getName());
+        if (count($this->paymentMethods) < 1) {
+            return;
+        }
 
-                    if ($methodsElement->getValue() == '' || $method->isPrimary()) {
-                        $methodsElement->setValue($method->id);
-                    }
-                }
+        $this->addRadioGroup('id_payment_method', PaymentsModels::methods()->getLabel('title'), true);
+        $methodsElement = $this->getElement('id_payment_method');
+        $methodsElement->getRenderer()->setSeparator('');
+
+        foreach ($this->paymentMethods as $method) {
+            if (!$method->isVisible() || !$method->supportsCurrency($this->currency)) {
+                continue;
+            }
+            $paymentMethod = $method instanceof PaymentMethodLink
+                ? $method->getPaymentMethod()
+                : $method;
+            $methodsElement->addOption($paymentMethod->id, $paymentMethod->getName());
+
+            if ($methodsElement->getValue() == '' || $method->isPrimary()) {
+                $methodsElement->setValue($method->id);
             }
         }
     }
+
     protected function initShowPaymentMethods()
     {
         if ($this->getModel()->getTotal() == 0) {
