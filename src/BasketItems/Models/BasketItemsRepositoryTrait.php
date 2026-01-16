@@ -37,7 +37,9 @@ trait BasketItemsRepositoryTrait
     protected function initRelationsBasketParent(): void
     {
         $this->belongsTo('Basket',
-            ['class' => $this->relationBasketParentClass()]
+            [
+                'class' => $this->relationBasketParentClass()
+            ]
         );
     }
 

@@ -12,6 +12,7 @@ use Marktic\Basket\Utility\PackageConfig;
 trait OrderItemsRepositoryTrait
 {
     use BasketItemsRepositoryTrait;
+
     protected function generateTable(): string
     {
         return PackageConfig::tableName(BasketModels::ORDER_ITEMS, CartItems::TABLE);

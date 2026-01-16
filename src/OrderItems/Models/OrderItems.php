@@ -18,9 +18,4 @@ class OrderItems extends BasketItems
     {
         return self::CONTROLLER;
     }
-
-    protected function relationBasketParentClass()
-    {
-        return BasketModels::cartsClass();
-    }
 }
