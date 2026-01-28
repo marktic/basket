@@ -26,7 +26,7 @@ class BasketServiceProvider extends BaseBootableServiceProvider
 
     protected function translationsPath(): string
     {
-        return __DIR__ . '/resources/lang/';
+        return dirname(__DIR__) . '/resources/lang/';
     }
 
     protected function registerCommands()
