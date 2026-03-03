@@ -7,12 +7,12 @@ namespace Marktic\Basket\Carts\Actions\Checkout;
 use Marktic\Basket\Carts\Events\Checkout\CheckoutOrderProcessedEvent;
 use Marktic\Basket\Carts\Events\Checkout\CheckoutStartEvent;
 use Marktic\Basket\Carts\Models\Cart;
+use Marktic\Basket\CartItems\Models\CartItem;
 use Marktic\Basket\Order\Actions\AddOrderItemToOrder;
 use Marktic\Basket\Order\Models\Order;
 use Marktic\Basket\OrderItems\Actions\CreateOrderItemFromCartItem;
 use Marktic\Basket\OrderItems\Models\OrderItem;
 use Marktic\Basket\Utility\BasketModels;
-use Nip\Records\AbstractModels\Record;
 
 class CheckoutCart
 {
@@ -43,7 +43,7 @@ class CheckoutCart
         return $item;
     }
 
-    public function evaluate()
+    public function evaluate(): Order
     {
         CheckoutStartEvent::dispatch($this->cart);
 
@@ -55,7 +55,7 @@ class CheckoutCart
         return $order;
     }
 
-    protected function createOrder(): Record
+    protected function createOrder(): Order
     {
         $this->order = BasketModels::orders()->getNew();
         $this->order->id_user = $this->cart->id_user;
@@ -79,15 +79,15 @@ class CheckoutCart
         }
     }
 
-    protected function processCartItem($cartItem): void
+    protected function processCartItem(CartItem $cartItem): void
     {
         $this->createOrderItem($cartItem);
     }
 
     /**
-     * @return OrderItem|Record
+     * @return OrderItem
      */
-    public function createOrderItem($cartItem): OrderItem|Record
+    public function createOrderItem(CartItem $cartItem): OrderItem
     {
         return CreateOrderItemFromCartItem::from($cartItem, $this->order)->create();
     }

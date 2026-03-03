@@ -29,7 +29,7 @@ class BasketServiceProvider extends BaseBootableServiceProvider
         return dirname(__DIR__) . '/resources/lang/';
     }
 
-    protected function registerCommands()
+    protected function registerCommands(): void
     {
 //        $this->commands(
 //        );

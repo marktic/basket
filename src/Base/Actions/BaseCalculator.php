@@ -37,9 +37,9 @@ abstract class BaseCalculator extends Action
         return $cache[$key];
     }
 
-    public function getTotal()
+    public function getTotal(): int
     {
-        return $this->getAttributeWithGenerator('total', function () {
+        return $this->getAttributeWithGenerator('total', function (): int {
             $subject = $this->getSubject();
             if ($subject->amount > 0 && $subject->currency_code == $this->currency->getCode()) {
                 return $subject->amount;
@@ -60,9 +60,9 @@ abstract class BaseCalculator extends Action
         return Money::fromCents($amount, $this->currency);
     }
 
-    public function getSubTotal()
+    public function getSubTotal(): int
     {
-        return $this->getAttributeWithGenerator('subtotal', function () {
+        return $this->getAttributeWithGenerator('subtotal', function (): int {
             return $this->calculateSubTotal();
         });
     }
@@ -73,7 +73,7 @@ abstract class BaseCalculator extends Action
         return Money::fromCents($amount, $this->currency);
     }
 
-    public function withCurrency($currency): static
+    public function withCurrency(string|Currency $currency): static
     {
         $this->currency = InitCurrency::from($currency);
         return $this;
