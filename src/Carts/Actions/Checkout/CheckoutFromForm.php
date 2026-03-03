@@ -15,9 +15,9 @@ class CheckoutFromForm
     protected $form;
 
     /**
-     * @var Order
+     * @var Order|null
      */
-    protected $order;
+    protected ?Order $order = null;
 
     final protected function __construct($form)
     {

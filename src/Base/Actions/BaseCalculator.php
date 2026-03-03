@@ -28,6 +28,9 @@ abstract class BaseCalculator extends Action
 
         $key = spl_object_id($subject) . $currency->getCode();
         if (!isset($cache[$key])) {
+            if (count($cache) >= 500) {
+                $cache = [];
+            }
             $calculator = self::for($subject)->withCurrency($currency);
             $cache[$key] = $calculator;
         }

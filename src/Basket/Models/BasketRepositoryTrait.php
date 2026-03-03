@@ -33,7 +33,7 @@ trait BasketRepositoryTrait
         );
     }
 
-    abstract function relationBasketItemsClass(): string;
+    abstract public function relationBasketItemsClass(): string;
 
     public function getUrlPK(): string
     {

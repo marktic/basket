@@ -19,14 +19,14 @@ class CheckoutCart
     /**
      * @var Cart
      */
-    protected $cart;
+    protected Cart $cart;
 
     /**
-     * @var Order
+     * @var Order|null
      */
-    protected $order;
+    protected ?Order $order = null;
 
-    final protected function __construct($cart)
+    final protected function __construct(Cart $cart)
     {
         $this->cart = $cart;
     }
@@ -34,9 +34,9 @@ class CheckoutCart
     /**
      * @param Cart $cart
      *
-     * @return void
+     * @return static
      */
-    public static function for($cart): self
+    public static function for(Cart $cart): static
     {
         $item = new static($cart);
 
@@ -79,7 +79,7 @@ class CheckoutCart
         }
     }
 
-    protected function processCartItem($cartItem)
+    protected function processCartItem($cartItem): void
     {
         $this->createOrderItem($cartItem);
     }
@@ -87,7 +87,7 @@ class CheckoutCart
     /**
      * @return OrderItem|Record
      */
-    public function createOrderItem($cartItem)
+    public function createOrderItem($cartItem): OrderItem|Record
     {
         return CreateOrderItemFromCartItem::from($cartItem, $this->order)->create();
     }

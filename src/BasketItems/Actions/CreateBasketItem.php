@@ -29,9 +29,9 @@ abstract class CreateBasketItem extends Action
      */
     protected $basket;
 
-    protected $quantity = 1;
+    protected int $quantity = 1;
 
-    protected $metadata = [];
+    protected mixed $metadata = [];
 
     public static function for(PurchasableItemInterface $subject, $basket): static
     {
@@ -42,13 +42,13 @@ abstract class CreateBasketItem extends Action
         return $action;
     }
 
-    public function withQuantity($quantity): static
+    public function withQuantity(int $quantity): static
     {
         $this->quantity = $quantity;
         return $this;
     }
 
-    public function withMetadata($metadata): static
+    public function withMetadata(mixed $metadata): static
     {
         $this->metadata = $metadata;
         return $this;

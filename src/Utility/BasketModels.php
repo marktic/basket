@@ -34,12 +34,12 @@ class BasketModels extends ModelFinder
         return get_class(static::carts());
     }
 
-    public static function cartItems()
+    public static function cartItems(): CartItems|RecordManager
     {
        return static::getModels(self::CART_ITEMS, CartItems::class);
     }
 
-    public static function cartItemsClass()
+    public static function cartItemsClass(): string
     {
        return get_class(static::cartItems());
     }
@@ -47,7 +47,7 @@ class BasketModels extends ModelFinder
     /**
      * @return Orders|RecordManager
      */
-    public static function orders(): Carts|RecordManager
+    public static function orders(): Orders|RecordManager
     {
         return static::getModels(self::ORDERS, Orders::class);
     }
@@ -57,7 +57,7 @@ class BasketModels extends ModelFinder
         return get_class(static::orders());
     }
 
-    public static function orderItems()
+    public static function orderItems(): OrderItems|RecordManager
     {
         return static::getModels(self::ORDER_ITEMS, OrderItems::class);
     }

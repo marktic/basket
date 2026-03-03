@@ -43,7 +43,7 @@ class BasketMetadata extends ModelConfiguration
     public function setCurrencies(array|null $currencies): self
     {
         $codes = [];
-        foreach ($currencies as $currency) {
+        foreach ($currencies ?? [] as $currency) {
             $codes[] = $this->protectCurrencyCode($currency);
         }
         $this->set(self::KEY_CURRENCIES, $codes);
