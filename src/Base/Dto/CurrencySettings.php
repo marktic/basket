@@ -51,7 +51,7 @@ class CurrencySettings
         return $this->availableCurrencyCodes;
     }
 
-    public function setDefaultCurrency($currency): self
+    public function setDefaultCurrency(string|Currency|null $currency): self
     {
         $currency = $this->guardCurrency($currency);
         $this->defaultCurrency = $currency;
@@ -76,7 +76,7 @@ class CurrencySettings
         return $this;
     }
 
-    protected function guardCurrency($currency): ?Currency
+    protected function guardCurrency(string|Currency|null $currency): ?Currency
     {
         if ($currency === null) {
             return null;

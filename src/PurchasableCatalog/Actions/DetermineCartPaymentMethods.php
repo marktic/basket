@@ -12,22 +12,21 @@ class DetermineCartPaymentMethods extends Action
 {
     use HasSubject;
 
-    protected $tenant;
+    protected mixed $tenant;
 
 
-    public function forTenant($tenant): self
+    public function forTenant(mixed $tenant): self
     {
         $this->tenant = $tenant;
         return $this;
     }
 
-    public function find()
+    /** @return iterable<mixed> */
+    public function find(): iterable
     {
-        if (!$this->tenant) {
+        if ($this->tenant === null) {
             throw new \Exception('Tenant not set');
         }
-        $paymentMethods = FindPaymentMethodLinksForTenant::for($this->tenant)->fetch();
-
-        return $paymentMethods;
+        return FindPaymentMethodLinksForTenant::for($this->tenant)->fetch();
     }
 }

@@ -9,8 +9,6 @@ use Bytic\Actions\Behaviours\Entities\FindRecord;
 use Bytic\Actions\Behaviours\HasSubject\HasSubject;
 use Marktic\Basket\Basket\Models\Basket;
 use Marktic\Basket\BasketItems\Models\BasketItem;
-use Marktic\Basket\Carts\Models\Cart;
-use Marktic\Basket\Order\Models\Order;
 use Marktic\Basket\PurchasableItems\Models\PurchasableItemInterface;
 use Marktic\Basket\Utility\BasketModels;
 use Nip\Records\AbstractModels\RecordManager;
@@ -25,15 +23,15 @@ abstract class CreateBasketItem extends Action
     use HasSubject;
 
     /**
-     * @var Cart|Order
+     * @var Basket $basket
      */
-    protected $basket;
+    protected Basket $basket;
 
-    protected $quantity = 1;
+    protected int $quantity = 1;
 
-    protected $metadata = [];
+    protected mixed $metadata = [];
 
-    public static function for(PurchasableItemInterface $subject, $basket): static
+    public static function for(PurchasableItemInterface $subject, Basket $basket): static
     {
         $action = new static();
         $action->setSubject($subject);
@@ -42,13 +40,13 @@ abstract class CreateBasketItem extends Action
         return $action;
     }
 
-    public function withQuantity($quantity): static
+    public function withQuantity(int $quantity): static
     {
         $this->quantity = $quantity;
         return $this;
     }
 
-    public function withMetadata($metadata): static
+    public function withMetadata(mixed $metadata): static
     {
         $this->metadata = $metadata;
         return $this;
@@ -63,7 +61,7 @@ abstract class CreateBasketItem extends Action
         return $item;
     }
 
-    protected function orCreateData($data)
+    protected function orCreateData(array $data): array
     {
         $basketFk = $this->getBasketFk();
         $subject = $this->getSubject();

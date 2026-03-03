@@ -33,7 +33,7 @@ trait BasketTrait
         return BasketMetadata::class;
     }
 
-    public function getTotal($currency = null)
+    public function getTotal(string|Currency|null $currency = null): int
     {
         $currency = $this->guardCurrency($currency);
         $metadata = $this->getMetadata();
@@ -44,14 +44,14 @@ trait BasketTrait
         return $value;
     }
 
-    public function getTotalMoney($currency = null): ?\ByTIC\Money\Money
+    public function getTotalMoney(string|Currency|null $currency = null): ?\ByTIC\Money\Money
     {
         $currency = $this->guardCurrency($currency);
         $amount = $this->getTotal($currency);
         return Money::fromCents($amount, $currency);
     }
 
-    protected function calculateTotal($currency = null)
+    protected function calculateTotal(string|Currency|null $currency = null): int
     {
         return BasketCalculator::forCurrency($this, $currency)->getTotal();
     }
@@ -75,13 +75,13 @@ trait BasketTrait
     /**
      * @param $currency
      */
-    public function setCurrency($currency)
+    public function setCurrency(string|Currency $currency): static
     {
         $this->getMetadata()->setCurrency($currency);
         return $this;
     }
 
-    protected function guardCurrency($currency, $default = null): Currency
+    protected function guardCurrency(string|Currency|null $currency, string|Currency|null $default = null): Currency
     {
         if ($currency !== null) {
             return InitCurrency::from($currency);
@@ -102,7 +102,7 @@ trait BasketTrait
         return $currencies;
     }
 
-    public function setCurrencies($currencies)
+    public function setCurrencies(array|null $currencies): static
     {
         $this->getMetadata()->setCurrencies($currencies);
         return $this;

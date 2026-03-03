@@ -16,7 +16,7 @@ trait OrderTrait
     /**
      * @return string
      */
-    public function compileThankYouOrderUrl()
+    public function compileThankYouOrderUrl(): string
     {
         return $this->compileURL('ThankYou');
     }

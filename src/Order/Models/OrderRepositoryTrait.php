@@ -17,7 +17,7 @@ trait OrderRepositoryTrait
         return PackageConfig::tableName(BasketModels::ORDERS, Orders::TABLE);
     }
 
-    function relationBasketItemsClass(): string
+    public function relationBasketItemsClass(): string
     {
         return BasketModels::orderItemsClass();
     }
