@@ -19,8 +19,9 @@ class AddOrderItemToOrder extends Action
 
     public function addItem(PurchasableItemInterface $item)
     {
-        $itemsCollection = $this->getSubject()->getItems();
-        $basketItem = CreateOrderItem::for($item)->create();
+        $basket = $this->getSubject();
+        $itemsCollection = $basket->getBasketItems();
+        $basketItem = CreateOrderItem::for($item, $basket)->create();
         $itemsCollection->add($basketItem);
         return $this;
     }
