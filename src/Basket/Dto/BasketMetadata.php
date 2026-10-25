@@ -16,13 +16,13 @@ class BasketMetadata extends ModelConfiguration
 
     public const KEY_CURRENCIES = 'currencies';
 
-    public function getCurrency($default = null): Currency
+    public function getCurrency(string|Currency|null $default = null): Currency
     {
         $currencyCode = $this->getCurrencyCode($default);
         return new \Money\Currency($currencyCode);
     }
 
-    public function getCurrencyCode($default = null): string
+    public function getCurrencyCode(string|Currency|null $default = null): string
     {
         $default = $this->protectCurrencyCode($default);
         return $this->get(self::KEY_CURRENCY, $default);
@@ -43,7 +43,7 @@ class BasketMetadata extends ModelConfiguration
     public function setCurrencies(array|null $currencies): self
     {
         $codes = [];
-        foreach ($currencies as $currency) {
+        foreach ($currencies ?? [] as $currency) {
             $codes[] = $this->protectCurrencyCode($currency);
         }
         $this->set(self::KEY_CURRENCIES, $codes);

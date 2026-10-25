@@ -17,7 +17,7 @@ class DetermineBasketCurrencySettings extends Action
 {
     use HasSubject;
 
-    protected static $cache = [];
+    protected static array $cache = [];
 
     public function execute(): CurrencySettings
     {

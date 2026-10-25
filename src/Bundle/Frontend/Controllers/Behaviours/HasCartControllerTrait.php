@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Marktic\Basket\Bundle\Frontend\Controllers\Behaviours;
 
 use Marktic\Basket\Carts\Actions\FindOrInitCurrentCart;
@@ -7,7 +9,7 @@ use Marktic\Basket\Carts\Models\Cart;
 
 trait HasCartControllerTrait
 {
-    protected $_cart = null;
+    protected ?Cart $_cart = null;
 
     protected function getCart(): Cart
     {

@@ -17,7 +17,7 @@ class AddOrderItemToOrder extends Action
 {
     use HasSubject;
 
-    public function addItem(PurchasableItemInterface $item)
+    public function addItem(PurchasableItemInterface $item): static
     {
         $basket = $this->getSubject();
         $itemsCollection = $basket->getBasketItems();

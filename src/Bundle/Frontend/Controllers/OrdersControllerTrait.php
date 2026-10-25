@@ -21,7 +21,7 @@ trait OrdersControllerTrait
         $redirectURL = $item->compileThankYouOrderUrl();
         $redirectTarget = '';
         $baseUrl = request()->getBaseUrl();
-        if (strpos($redirectURL, $baseUrl) === false) {
+        if (!str_contains($redirectURL, $baseUrl)) {
             $redirectTarget = '_top';
         }
 
@@ -47,7 +47,7 @@ trait OrdersControllerTrait
     /**
      * @return Order
      */
-    protected function itemInitView()
+    protected function itemInitView(): Order
     {
         /** @var Order $item */
         $item = $this->getModelFromRequest(['uuid','uuid']);

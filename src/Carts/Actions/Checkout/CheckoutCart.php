@@ -7,26 +7,26 @@ namespace Marktic\Basket\Carts\Actions\Checkout;
 use Marktic\Basket\Carts\Events\Checkout\CheckoutOrderProcessedEvent;
 use Marktic\Basket\Carts\Events\Checkout\CheckoutStartEvent;
 use Marktic\Basket\Carts\Models\Cart;
+use Marktic\Basket\CartItems\Models\CartItem;
 use Marktic\Basket\Order\Actions\AddOrderItemToOrder;
 use Marktic\Basket\Order\Models\Order;
 use Marktic\Basket\OrderItems\Actions\CreateOrderItemFromCartItem;
 use Marktic\Basket\OrderItems\Models\OrderItem;
 use Marktic\Basket\Utility\BasketModels;
-use Nip\Records\AbstractModels\Record;
 
 class CheckoutCart
 {
     /**
      * @var Cart
      */
-    protected $cart;
+    protected Cart $cart;
 
     /**
-     * @var Order
+     * @var Order|null
      */
-    protected $order;
+    protected ?Order $order = null;
 
-    final protected function __construct($cart)
+    final protected function __construct(Cart $cart)
     {
         $this->cart = $cart;
     }
@@ -34,16 +34,16 @@ class CheckoutCart
     /**
      * @param Cart $cart
      *
-     * @return void
+     * @return static
      */
-    public static function for($cart): self
+    public static function for(Cart $cart): static
     {
         $item = new static($cart);
 
         return $item;
     }
 
-    public function evaluate()
+    public function evaluate(): Order
     {
         CheckoutStartEvent::dispatch($this->cart);
 
@@ -55,7 +55,7 @@ class CheckoutCart
         return $order;
     }
 
-    protected function createOrder(): Record
+    protected function createOrder(): Order
     {
         $this->order = BasketModels::orders()->getNew();
         $this->order->id_user = $this->cart->id_user;
@@ -79,15 +79,15 @@ class CheckoutCart
         }
     }
 
-    protected function processCartItem($cartItem)
+    protected function processCartItem(CartItem $cartItem): void
     {
         $this->createOrderItem($cartItem);
     }
 
     /**
-     * @return OrderItem|Record
+     * @return OrderItem
      */
-    public function createOrderItem($cartItem)
+    public function createOrderItem(CartItem $cartItem): OrderItem
     {
         return CreateOrderItemFromCartItem::from($cartItem, $this->order)->create();
     }

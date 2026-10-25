@@ -31,7 +31,7 @@ class FindOrInitCurrentCart extends Action
         return $action;
     }
 
-    public function fetch()
+    public function fetch(): Cart
     {
         $cart = $this->find();
         if ($cart) {
@@ -75,12 +75,12 @@ class FindOrInitCurrentCart extends Action
         return null;
     }
 
-    protected function findByUuid($uuid): ?Cart
+    protected function findByUuid(string $uuid): ?Cart
     {
         return $this->getRepository()->findOneByField('uuid', $uuid);
     }
 
-    protected function create()
+    protected function create(): Cart
     {
         $cartId = $this->generateCartId();
         $cart = $this->getRepository()->getNew();

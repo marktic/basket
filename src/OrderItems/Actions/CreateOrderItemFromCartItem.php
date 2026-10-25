@@ -18,12 +18,13 @@ class CreateOrderItemFromCartItem extends CreateBasketItem
 
     /**
      * @param CartItem $cartItem
+     * @param Order $order
      * @return static
      */
-    public static function from($cartItem, $order): static
+    public static function from(CartItem $cartItem, $order): static
     {
         $action = self::for($cartItem->getBasketProduct(), $order);
-        $action->withQuantity($cartItem->quantity);
+        $action->withQuantity($cartItem->getQuantity());
         $action->withMetadata($cartItem->metadata);
         return $action;
     }

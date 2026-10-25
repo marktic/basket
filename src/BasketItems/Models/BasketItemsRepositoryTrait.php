@@ -43,5 +43,5 @@ trait BasketItemsRepositoryTrait
         );
     }
 
-    abstract protected function relationBasketParentClass();
+    abstract protected function relationBasketParentClass(): string;
 }
